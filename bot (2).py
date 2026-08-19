@@ -97,3 +97,43 @@ def increment_tasks_done(user_id: int):
         cursor.execute("DELETE FROM homework WHERE id = ?", (homework_id,))
         connection.commit()
         connection.close()
+    import sqlite3
+    import asyncio
+    from aiogram import Bot, Dispatcher, types
+    from aiogram.filters import Command
+    from aiogram.types import InLineKeyboardMarkup, InlineKeyboardMarkup, InlineKeyboardButton, FsinputFile
+# =====================================================================
+#  ОБЩАЯ ИНИЦИАЛИЗА / ÜLDINE INITSIALISEERIMINE
+# =====================================================================
+TOKEN = "8771936252:AAGoqAOq7P8oY8pRkQh-m7bI82yNQo04SXE"
+bot = Bot(token=TOKEN)
+dp = Dispatcher()
+
+# =====================================================================
+#  ЧАСТЬ 1: БАЗА ДАННЫХ И ЛОГИКА (Руслан)
+#  OSA 1: ANDMEBAAS JA LOOGIKA (Ruslan)
+# =====================================================================
+
+def create_database():
+    """Создание таблиц базы данных / Andmebaasi tabelite loomine"""
+    connection = sqlite3.connect("eduschedule.db")
+    cursor = connection.cursor()
+
+    # Таблица пользователей / Kasutajate tabel
+    cursor.execute("""CREATE TABLE IF NOT EXISTS users (user_id INTEGER PRIMARY KEY,tasks_done INTEGER DEFAULT 0)""")
+    # Таблица домашних заданий / Kodutööde tabel
+    cursor.execute("""
+        CREATE TABLE IF NOT EXISTS homework (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            subject TEXT,
+            task TEXT,
+            deadline TEXT
+        )
+    """)
+
+    connection.commit()
+    connection.close()
+
+
+    
+   
