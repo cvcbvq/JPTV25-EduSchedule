@@ -97,43 +97,82 @@ def increment_tasks_done(user_id: int):
         cursor.execute("DELETE FROM homework WHERE id = ?", (homework_id,))
         connection.commit()
         connection.close()
-    import sqlite3
-    import asyncio
-    from aiogram import Bot, Dispatcher, types
-    from aiogram.filters import Command
-    from aiogram.types import InLineKeyboardMarkup, InlineKeyboardMarkup, InlineKeyboardButton, FsinputFile
-# =====================================================================
-#  ОБЩАЯ ИНИЦИАЛИЗА / ÜLDINE INITSIALISEERIMINE
-# =====================================================================
-TOKEN = "8771936252:AAGoqAOq7P8oY8pRkQh-m7bI82yNQo04SXE"
-bot = Bot(token=TOKEN)
-dp = Dispatcher()
 
 # =====================================================================
-#  ЧАСТЬ 1: БАЗА ДАННЫХ И ЛОГИКА (Руслан)
-#  OSA 1: ANDMEBAAS JA LOOGIKA (Ruslan)
+#  ЧАСТЬ 2: КОМАНДЫ БОТА И ИНТЕРФЕЙС (Ярослав)
+#  OSA 2: TELEGRAM BOTI KÄSUD JA UI (Jaroslav)
 # =====================================================================
 
-def create_database():
-    """Создание таблиц базы данных / Andmebaasi tabelite loomine"""
-    connection = sqlite3.connect("eduschedule.db")
-    cursor = connection.cursor()
 
-    # Таблица пользователей / Kasutajate tabel
-    cursor.execute("""CREATE TABLE IF NOT EXISTS users (user_id INTEGER PRIMARY KEY,tasks_done INTEGER DEFAULT 0)""")
-    # Таблица домашних заданий / Kodutööde tabel
-    cursor.execute("""
-        CREATE TABLE IF NOT EXISTS homework (
-            id INTEGER PRIMARY KEY AUTOINCREMENT,
-            subject TEXT,
-            task TEXT,
-            deadline TEXT
-        )
-    """)
+@dp.message(Command("start"))
+async def start_command(message: types.Message):
+    """Стартовая команда / Alguskäsk"""
+    user_id = message.from_user.id
+    get_or_create_user(user_id)
+    await message.answer("📚 Tere! See on EduSchedule bot.\n"
+                         "Aitan sul jälgida oma kodutöid ja tunde! 🐸")
 
-    connection.commit()
-    connection.close()
+@dp.message(Command("help"))
+async def help_command(message: types.Message):
+    """Кманда помощи / Abikäsk"""
+    help_text = (
+    "EduSchedule on bot õppimise ja kodutööde haldamiseks.\n\n"
+    "Käsud:\n"
+    "/start - Alusta boti kasutamist\n"
+    "/help - Abiinfo\n"
+    "/dz - Vaata aktiivselt
+    "/lisa - Lisa uus kodutöö\n"
+    "/mina - Sinu statistika\n"
+    "/dev - Arendaja menüü"
+) 
+ try:
+        photo = FSInputFile("assets/Help.png")
+        await bot.send_photo(chat_id=message.chat.id, photo=photo, caption=help_text)
+    except Exception:
+        await message.answer(help_text)
+
+@dp.message(Command("dz"))
+async def dz_command(message: types.Message):
+    """Просмотр домашних заданий / Kodutööde vaatamine"""
+    user_id = message.from_user.id
+    get_or_create_user(user.id)
+
+homeworks = get_all_homework()
+
+if not homeworks:
+    await message.answer("🎉 Kodutöid pole! Kõik on tehtud.")
+    return
+
+await message.answer("📖 **Aktiivsed kodutööd:**", parse_mode="Markdown")
+
+for hw in homeworks:
+    hw_id, subject, task, deadline = hw
+    text = f"📌 **Aine:** {subject}\n📝 **Ülesanne:** {task}\n⏳ **Tähtaeg:** {deadline}"
+
+    keyboard = InlineKeyboardMarkup(unline_keyboard=[
+        [InlineKeyboardButton(text="✅ Märgi tehtuks", callback_data=f"done_{hw_id}")]
+    ])
+    await message.answer(text, reply_markup=keyboard, parse_mode="Markdown")
 
 
+@dp.callback_query(lamba c: c.data and c.data.startswith("done_"))
+async def done_callback.from_user.id
+hw_id = int(callback.data.split("_")[1])
+
+delete_homework(hw_id)
+increment_tasks_done(user_id)
+
+await callback.answer("Tubli! Ülesanne on tehtud! 🎉", show_alert=True)
+await callback.message.delete()
+
+@dp.message(Command("lisa"))
+async def lisa_command(message: types.Message):
+    """Меню быстрого добавления / Kiire lisamise menüü"""
+    keyboard = InlineKeyboardMarkup(inline_keyboard=[
+        [InlineKeyboardButton(text="Python (Harjutus 5)", callback_data="add_Python_Harjutus 5_Homme")],
+        [InlineKeyboardButton(text="Matemaatika (Lk 42)", callback_data="add_Matemaatika_Lk 42_Reede")],
+        [InlineKeyboardButton(text="Inglise keel (Grammar)", callback_data="add_Inglise_Grammar_Esmaspäev")]
+    ])
+    await message.answer("Vali kiir-lisatav kodutöö või vali aine:", reply_markup=keyboard)
+        
     
-   
