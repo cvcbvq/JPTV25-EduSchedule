@@ -174,5 +174,19 @@ async def lisa_command(message: types.Message):
         [InlineKeyboardButton(text="Inglise keel (Grammar)", callback_data="add_Inglise_Grammar_Esmaspäev")]
     ])
     await message.answer("Vali kiir-lisatav kodutöö või vali aine:", reply_markup=keyboard)
-        
+
+@dp.callback_query(lamba c: c.data and and c.data.startswith("add_"))
+async def add_callback(callback: types.CallbackQuery):
+     """Сохранение добавленного ДЗ / Lisatud kodutöö salvestamine"""
+     _, subject, task, deadline = callback.data.split("_")
+
+     add_homework(subject, task, deadline)
+
+    await callback.answer(f"Kdutöö aines {subject} lisatud!", show_alert=True))
+    await callback.message.answer(
+        f"✅ Uus kodutöö lisatud!\n📌 **Aine:** {subject}\n📝 **Ülesanne:** {task}", 
+        parse_mode="Markdown"
+    )
+
     
+        
