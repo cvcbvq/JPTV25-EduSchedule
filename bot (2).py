@@ -188,5 +188,31 @@ async def add_callback(callback: types.CallbackQuery):
         parse_mode="Markdown"
     )
 
-    
+
+@dp.callback_query(lambda c: c.data and c.data.startswith("done_"))
+async def done_callback(callback: types.CallbackQuery):
+    """Обработка кнопки 'Сделано' / 'Tehtud' nupu haldur"""
+    user_id = callback.from_user.id
+    hw_id = int(callback.data.split("_")[1])
+
+    delete_homework(hw_id)
+    increment_tasks_done(user_id)
+
+    await callback.answer("Tubli! Ülesanne on tehtud! 🎉", show_alert=True)
+    await callback.message.delete()
+
+    @dp.message(Command("lisa"))
+async def lisa_command(message: types.Message):
+    """Меню быстрого добавления / Kiire lisamise menüü"""
+    keyboard = InlineKeyboardMarkup(inline_keyboard=[
+        [InlineKeyboardButton(text="Python (Harjutus 5)", callback_data="add_Python_Harjutus 5_Homme")],
+        [InlineKeyboardButton(text="Matemaatika (Lk 42)", callback_data="add_Matemaatika_Lk 42_Reede")],
+        [InlineKeyboardButton(text="Inglise keel (Grammar)", callback_data="add_Inglise_Grammar_Esmaspäev")]
+    ])
+    await message.answer("Vali kiir-lisatav kodutöö või vali aine:", reply_markup=keyboard)
+
+    @dp.callback_query(lamba c: c.data and c.data.startswith("add_"))
+    async def add_callback(callback: types.CallbackQuery):
+         """Сохранение добавленного ДЗ / Lisatud kodutöö salvestamine"""
+        _, subject, task, deadline = callback.data.split("_")
         
