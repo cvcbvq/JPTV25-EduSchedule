@@ -215,4 +215,73 @@ async def lisa_command(message: types.Message):
     async def add_callback(callback: types.CallbackQuery):
          """Сохранение добавленного ДЗ / Lisatud kodutöö salvestamine"""
         _, subject, task, deadline = callback.data.split("_")
-        
+
+    add_homework(subject, tast, deadline)
+
+    await callback.answer(f"Kodutöö aines {subject} lisatud!", show_alert=True)
+    await callback.message.answer(
+        f"✅ Uus kodutöö lisatud!\n📌 **Aine:** {subject}\n📝 **Ülesanne:** {task}", 
+        parse_mode="Markdown"
+    )
+
+
+@dp.message(command("mina"))
+async def mina_command(message: types.Message):
+    """Профил и статистика / Profil ja statistika"""
+    user_id = message.from_user.id
+    tasks_done = get_or_create_user(user_id)
+
+    text = f"📊 **Sinu statistika:**\n\nID: {user_id}\nTehtud kodutöid kokku: {tasks_done} 🏆"
+
+    try:
+        photo = FSInputFile("assets/Mina.png")
+        await bot.send_photo(chat_id=message.chat.id, photo=photo, caption=text, parse_mode="Markdown")
+    except Exception:
+        await message.answer(text, parse_mode="Markdown")
+
+
+@dp.message(Command("dev"))
+async def dev_command(message: types.Message):
+    """Меню разработчика / Arendaja menüü"""
+    keyboard = InlineKeyboardMarkup(inline_keyboard=[
+        [InlineKeyboardButton(text="Kasutajate statistika", callback_data="dev_stats")],
+        [InlineKeyboardButton(text="Puhasta andmebaas", callback_data="dev_clear")]
+    ])
+
+    try:
+        photo - FSInputFile("assets/Dev.png")
+        await bot.send_photo(chat_id=message.chat.id, photo=photo, caption="🛠 Dev menüü:", reply_markup=keyboard)
+    except Exception:
+        await message.answer("🛠 Dev menüü:", reply_markup=keyboard)
+
+
+@dp.callback_query(lamba c: c.data abd c.data.startswith("dev_"))
+async def dev_callback(callback: types.CallbackQuery):
+    """Логика админ панели / Arendaja menüü loogika"""
+    action = callback.data.split("_")[1]
+
+   if action == "stats":
+        connection = sqlite3.connect("eduschedule.db")
+        cursor = connection.cursor()
+        cursor.execute("SELECT * FROM users")
+        users = cursor.fetchall()
+        connection.close()
+
+        text = "Kasutajate andmebaas:\n\n"
+        for u in users:
+            text += f"ID: {u[0]} | Tehtud: {u[1]}\n"
+
+        text += f"\nKokku kasutajaid: {len(users)}"
+        await callback.message.answer(text[:4000])
+        await callback.answer()
+
+   elif action == "clear":
+        connection = sqlite3.connect("eduschedule.db")
+        cursor = connection.cursor()
+        cursor.execute("DELETE FROM users")
+        cursor.execute("DELETE FROM homework")
+        connection.commit()
+        connection.close()
+
+        await callback.message.answer("Andmebaas on täielikult puhastatud!")
+        await callback.anwer()
