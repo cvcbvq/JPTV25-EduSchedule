@@ -157,7 +157,7 @@ for hw in homeworks:
     await message.answer(text, reply_markup=keyboard, parse_mode="Markdown")
 
 
-@dp.callback_query(lamba c: c.data and c.data.startswith("done_"))
+@dp.callback_query(lambda c: c.data and c.data.startswith("done_"))
 async def done_callback.from_user.id
 hw_id = int(callback.data.split("_")[1])
 
@@ -177,7 +177,7 @@ async def lisa_command(message: types.Message):
     ])
     await message.answer("Vali kiir-lisatav kodutöö või vali aine:", reply_markup=keyboard)
 
-@dp.callback_query(lamba c: c.data and and c.data.startswith("add_"))
+@dp.callback_query(lambda c: c.data and c.data.startswith("add_"))
 async def add_callback(callback: types.CallbackQuery):
      """Сохранение добавленного ДЗ / Lisatud kodutöö salvestamine"""
      _, subject, task, deadline = callback.data.split("_")
