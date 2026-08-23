@@ -20,3 +20,7 @@
 ´´´bash
 git clone [https://github.com/cvcbvq/JPTV25-EduSchedule.git](https://github.com/cvcbvq/JPTV25-EduSchedule.git)
 cd JPTV25-EduSchedule
+2.Paigalda sõltuvused (Установка зависимостей)
+pip install aiogram
+3.Käivita bot (Запуск бота)
+python bot.py
