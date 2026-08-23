@@ -37,7 +37,7 @@ def create_database():
             subject TEXT,
             task TEXT,
             deadline TEXT
-        
+        )
     """)
 
     connection.commit()
