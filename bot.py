@@ -2,7 +2,7 @@ import sqlite3
 import asyncio
 from aiogram import Bot, Dispatcher, types 
 from aiogram.filters import Command
-
+from aiogram.types import InlineKeyboardMarkup, InlineKeyboardButton, FSInputFile
 
 #ОБЩАЯ ИНИЦИАЛИЗАЦИЯ
 # / ÜLDINE INITSIALISEERIMINE
