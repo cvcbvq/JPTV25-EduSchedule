@@ -147,7 +147,7 @@ async def dz_command(message: types.Message):
 
     await message.answer("📖 **Aktiivsed kodutööd:**", parse_mode="Markdown")
 
-for hw in homeworks:
+    for hw in homeworks:
         hw_id, subject, task, deadline = hw
         text = f"📌 **Aine:** {subject}\n📝 **Ülesanne:** {task}\n⏳ **Tähtaeg:** {deadline}"
 
