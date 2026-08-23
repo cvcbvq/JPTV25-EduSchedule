@@ -125,8 +125,8 @@ async def help_command(message: types.Message):
     "/mina - Sinu statistika\n"
     "/dev - Arendaja menüü"
 ) 
- try:
-        photo = FSInputFile("assets/Help.png")
+ try:  
+     photo = FSInputFile("assets/Help.png")
         await bot.send_photo(chat_id=message.chat.id, photo=photo, caption=help_text)
     except Exception:
         await message.answer(help_text)
