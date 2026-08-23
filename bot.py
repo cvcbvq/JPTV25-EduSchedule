@@ -158,14 +158,15 @@ async def dz_command(message: types.Message):
 
 
 @dp.callback_query(lambda c: c.data and c.data.startswith("done_"))
-async def done_callback.from_user.id
-hw_id = int(callback.data.split("_")[1])
+async def done_callback(callback: types.CallbackQuery):
+    user_id = callback.from_user.id
+    hw_id = int(callback.data.split("_")[1])
 
     delete_homework(hw_id)
     increment_tasks_done(user_id)
 
-await callback.answer("Tubli! Ülesanne on tehtud! 🎉", show_alert=True)
-await callback.message.delete()
+    await callback.answer("Tubli! Ülesanne on tehtud! 🎉", show_alert=True)
+    await callback.message.delete()
 
 @dp.message(Command("lisa"))
 async def lisa_command(message: types.Message):
