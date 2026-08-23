@@ -107,7 +107,7 @@ def delete_homework(homework_id: int):
 @dp.message(Command("start"))
 async def start_command(message: types.Message):
     """Стартовая команда / Alguskäsk"""
-  user_id = message.from_user.id
+    user_id = message.from_user.id
     get_or_create_user(user_id)
     await message.answer("📚 Tere! See on EduSchedule bot.\n"
                          "Aitan sul jälgida oma kodutöid ja tunde! 🐸")
