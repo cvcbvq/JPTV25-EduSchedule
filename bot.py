@@ -147,7 +147,7 @@ async def dz_command(message: types.Message):
 
     await message.answer("📖 **Aktiivsed kodutööd:**", parse_mode="Markdown")
 
-for hw in homeworks:
+    for hw in homeworks:
     hw_id, subject, task, deadline = hw
     text = f"📌 **Aine:** {subject}\n📝 **Ülesanne:** {task}\n⏳ **Tähtaeg:** {deadline}"
 
@@ -161,8 +161,8 @@ for hw in homeworks:
 async def done_callback.from_user.id
 hw_id = int(callback.data.split("_")[1])
 
-delete_homework(hw_id)
-increment_tasks_done(user_id)
+    delete_homework(hw_id)
+    increment_tasks_done(user_id)
 
 await callback.answer("Tubli! Ülesanne on tehtud! 🎉", show_alert=True)
 await callback.message.delete()
@@ -184,7 +184,7 @@ async def add_callback(callback: types.CallbackQuery):
 
      add_homework(subject, task, deadline)
 
-    await callback.answer(f"Kdutöö aines {subject} lisatud!", show_alert=True))
+    await callback.answer(f"Kodutöö aines {subject} lisatud!", show_alert=True)
     await callback.message.answer(
         f"✅ Uus kodutöö lisatud!\n📌 **Aine:** {subject}\n📝 **Ülesanne:** {task}", 
         parse_mode="Markdown"
@@ -227,7 +227,7 @@ async def lisa_command(message: types.Message):
     )
 
 
-@dp.message(command("mina"))
+@dp.message(Command("mina"))
 async def mina_command(message: types.Message):
     """Профил и статистика / Profil ja statistika"""
     user_id = message.from_user.id
