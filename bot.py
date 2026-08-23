@@ -251,18 +251,18 @@ async def dev_command(message: types.Message):
     ])
 
     try:
-        photo - FSInputFile("assets/Dev.png")
+        photo = FSInputFile("assets/Dev.png")
         await bot.send_photo(chat_id=message.chat.id, photo=photo, caption="🛠 Dev menüü:", reply_markup=keyboard)
     except Exception:
         await message.answer("🛠 Dev menüü:", reply_markup=keyboard)
 
 
-@dp.callback_query(lamba c: c.data abd c.data.startswith("dev_"))
+@dp.callback_query(lambda c: c.data and c.data.startswith("dev_"))
 async def dev_callback(callback: types.CallbackQuery):
     """Логика админ панели / Arendaja menüü loogika"""
     action = callback.data.split("_")[1]
 
-   if action == "stats":
+    if action == "stats":
         connection = sqlite3.connect("eduschedule.db")
         cursor = connection.cursor()
         cursor.execute("SELECT * FROM users")
@@ -286,7 +286,7 @@ async def dev_callback(callback: types.CallbackQuery):
         connection.close()
 
         await callback.message.answer("Andmebaas on täielikult puhastatud!")
-        await callback.anwer()
+        await callback.answer()
 
 
 # =====================================================================
