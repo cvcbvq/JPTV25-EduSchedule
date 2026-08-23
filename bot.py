@@ -180,8 +180,8 @@ async def lisa_command(message: types.Message):
 
 @dp.callback_query(lambda c: c.data and c.data.startswith("add_"))
 async def add_callback(callback: types.CallbackQuery):
-     """Сохранение добавленного ДЗ / Lisatud kodutöö salvestamine"""
-     _, subject, task, deadline = callback.data.split("_")
+    """Сохранение добавленного ДЗ / Lisatud kodutöö salvestamine"""
+    _, subject, task, deadline = callback.data.split("_")
 
     add_homework(subject, task, deadline)
 
