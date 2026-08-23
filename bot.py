@@ -120,7 +120,7 @@ async def help_command(message: types.Message):
     "Käsud:\n"
     "/start - Alusta boti kasutamist\n"
     "/help - Abiinfo\n"
-    "/dz - Vaata aktiivselt
+    "/dz - Vaata aktiivselt"
     "/lisa - Lisa uus kodutöö\n"
     "/mina - Sinu statistika\n"
     "/dev - Arendaja menüü"
