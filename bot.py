@@ -66,7 +66,7 @@ def increment_tasks_done(user_id: int):
     #Увелечение счетчика выполнения ДЗ / Tehtud üleannete suurendamine
     connection = sqlite3.connect("eduschedule.db")
     cursor = connection.cursor()
-  cursor.execute("UPDATE users SET task_done = task_done + 1 WHERE user_id = ?", (user_id,))
+    cursor.execute("UPDATE users SET task_done = task_done + 1 WHERE user_id = ?", (user_id,))
     connection.commit()
     connection.close()
 
