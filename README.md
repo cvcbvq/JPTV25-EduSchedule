@@ -26,3 +26,7 @@ pip install aiogram
 
 3.Käivita bot (Запуск бота)
 python bot.py
+
+👥Arendajad(Разработчики)
+Ruslan Jerjomenko — Boti ehitus ja dev-menüü / Архитектура бота и dev-меню.
+Jaroslav Sazin — Andmebaas ja loogika / База данных и логика.
