@@ -1,7 +1,7 @@
 import sqlite3 
 import asyncio
 from aiogram import Bot, Dispatcher, types 
-from aiogram.types import InlineKeyboardMarkup, InlineKeyboardButton, FSInputFile
+from aiogram.filters import Command
 
 
 #ОБЩАЯ ИНИЦИАЛИЗАЦИЯ
