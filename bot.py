@@ -71,7 +71,7 @@ def increment_tasks_done(user_id: int):
     connection.close()
 
 
-    def add_homework(subject: str, task: str, deadline: str):
+def add_homework(subject: str, task: str, deadline: str):
         #Добавление ДЗ в базу / Kodutöö lisamine andmebaasi
         connection = sqlite3.connect("eduschedule.db")
         cursor = connection.cursor()
