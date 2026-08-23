@@ -285,3 +285,31 @@ async def dev_callback(callback: types.CallbackQuery):
 
         await callback.message.answer("Andmebaas on täielikult puhastatud!")
         await callback.anwer()
+
+
+# =====================================================================
+#  СЕКРЕТНАЯ КОМАНДА / SALADUSLIK KÄSK
+# =====================================================================
+
+@dp.message(Command("JPTVSecret"))
+async def secret_command(message: types.Message):
+    """Секретная команда с информацией об авторах"""
+    secret_text = (
+        "EduSchedule meeskond:\n\n"
+        "1. Руслан — Database & Backend Architecture\n"
+        "2. Ярослав — Telegram Handlers & UI Design"
+    )
+    await message.answer(secret_text)
+
+# =====================================================================
+#  ЗАПУСК ПРОЕКТА / PROJEKTI KÄIVITAMINE
+# =====================================================================
+
+async def main():
+    create_database()
+    print("EduSchedule bot on käivitatud!")
+    await dp.start_polling(bot)
+
+
+if __name__ == "__main__":
+    asyncio.run(main())
