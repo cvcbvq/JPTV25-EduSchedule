@@ -147,14 +147,14 @@ async def dz_command(message: types.Message):
 
     await message.answer("📖 **Aktiivsed kodutööd:**", parse_mode="Markdown")
 
-    for hw in homeworks:
-    hw_id, subject, task, deadline = hw
-    text = f"📌 **Aine:** {subject}\n📝 **Ülesanne:** {task}\n⏳ **Tähtaeg:** {deadline}"
+for hw in homeworks:
+        hw_id, subject, task, deadline = hw
+        text = f"📌 **Aine:** {subject}\n📝 **Ülesanne:** {task}\n⏳ **Tähtaeg:** {deadline}"
 
-    keyboard = InlineKeyboardMarkup(unline_keyboard=[
-        [InlineKeyboardButton(text="✅ Märgi tehtuks", callback_data=f"done_{hw_id}")]
-    ])
-    await message.answer(text, reply_markup=keyboard, parse_mode="Markdown")
+        keyboard = InlineKeyboardMarkup(inline_keyboard=[
+            [InlineKeyboardButton(text="✅ Märgi tehtuks", callback_data=f"done_{hw_id}")]
+        ])
+        await message.answer(text, reply_markup=keyboard, parse_mode="Markdown")
 
 
 @dp.callback_query(lambda c: c.data and c.data.startswith("done_"))
@@ -183,7 +183,7 @@ async def add_callback(callback: types.CallbackQuery):
      """Сохранение добавленного ДЗ / Lisatud kodutöö salvestamine"""
      _, subject, task, deadline = callback.data.split("_")
 
-     add_homework(subject, task, deadline)
+    add_homework(subject, task, deadline)
 
     await callback.answer(f"Kodutöö aines {subject} lisatud!", show_alert=True)
     await callback.message.answer(
@@ -242,7 +242,7 @@ async def dev_callback(callback: types.CallbackQuery):
         await callback.message.answer(text[:4000])
         await callback.answer()
 
-   elif action == "clear":
+    elif action == "clear":
         connection = sqlite3.connect("eduschedule.db")
         cursor = connection.cursor()
         cursor.execute("DELETE FROM users")
