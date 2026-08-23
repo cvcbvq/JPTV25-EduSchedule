@@ -107,43 +107,45 @@ def add_homework(subject: str, task: str, deadline: str):
 @dp.message(Command("start"))
 async def start_command(message: types.Message):
     """Стартовая команда / Alguskäsk"""
-    user_id = message.from_user.id
+  user_id = message.from_user.id
     get_or_create_user(user_id)
     await message.answer("📚 Tere! See on EduSchedule bot.\n"
                          "Aitan sul jälgida oma kodutöid ja tunde! 🐸")
 
+
 @dp.message(Command("help"))
 async def help_command(message: types.Message):
-    """Кманда помощи / Abikäsk"""
+    """Команда помощи / Abikäsk"""
     help_text = (
-    "EduSchedule on bot õppimise ja kodutööde haldamiseks.\n\n"
-    "Käsud:\n"
-    "/start - Alusta boti kasutamist\n"
-    "/help - Abiinfo\n"
-    "/dz - Vaata aktiivselt"
-    "/lisa - Lisa uus kodutöö\n"
-    "/mina - Sinu statistika\n"
-    "/dev - Arendaja menüü"
-) 
- try:  
-     photo = FSInputFile("assets/Help.png")
+        "EduSchedule on bot õppimise ja kodutööde haldamiseks.\n\n"
+        "Käsud:\n"
+        "/start - Alusta boti kasutamist\n"
+        "/help - Abiinfo\n"
+        "/dz - Vaata aktiivselt\n"
+        "/lisa - Lisa uus kodutöö\n"
+        "/mina - Sinu statistika\n"
+        "/dev - Arendaja menüü"
+    )
+    try:
+        photo = FSInputFile("assets/Help.png")
         await bot.send_photo(chat_id=message.chat.id, photo=photo, caption=help_text)
     except Exception:
         await message.answer(help_text)
+
 
 @dp.message(Command("dz"))
 async def dz_command(message: types.Message):
     """Просмотр домашних заданий / Kodutööde vaatamine"""
     user_id = message.from_user.id
-    get_or_create_user(user.id)
+    get_or_create_user(user_id)
 
-homeworks = get_all_homework()
+    homeworks = get_all_homework()
 
-if not homeworks:
-    await message.answer("🎉 Kodutöid pole! Kõik on tehtud.")
-    return
+    if not homeworks:
+        await message.answer("🎉 Kodutöid pole! Kõik on tehtud.")
+        return
 
-await message.answer("📖 **Aktiivsed kodutööd:**", parse_mode="Markdown")
+    await message.answer("📖 **Aktiivsed kodutööd:**", parse_mode="Markdown")
 
 for hw in homeworks:
     hw_id, subject, task, deadline = hw
