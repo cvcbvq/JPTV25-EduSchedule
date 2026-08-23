@@ -5,7 +5,7 @@ from aiogram.filters import Command
 from aiogram.types import InlineKeyboardMarkup, InlineKeyboardButton, FSInputFile
 
 #ОБЩАЯ ИНИЦИАЛИЗАЦИЯ
-# / ÜLDINE INITSIALISEERIMINE
+#ÜLDINE INITSIALISEERIMINE
 
 TOKEN = "8771936252:AAGoqAOq7P8oY8pRkQh-m7bI82yNQo04SXE"    
 bot = Bot(token=TOKEN)
