@@ -80,7 +80,7 @@ def add_homework(subject: str, task: str, deadline: str):
         connection.close()
 
 
-    def get_all_homework():
+def get_all_homework():
         #Получение всех ДЗ из базы / Kõigi kodutööde saamine andmebaasist
         connection = sqlite3.connect("eduschedule.db")
         cursor = connection.cursor()
@@ -90,7 +90,7 @@ def add_homework(subject: str, task: str, deadline: str):
         return result
 
 
-    def delete_homework(homework_id: int):
+def delete_homework(homework_id: int):
         #Удаление ДЗ из базы / Kodutöö kustutamine andmebaasist
         connection = sqlite3.connect("eduschedule.db")
         cursor = connection.cursor()
